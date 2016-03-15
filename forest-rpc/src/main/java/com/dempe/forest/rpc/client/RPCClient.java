@@ -94,6 +94,13 @@ public class RPCClient {
             return t;
         }
 
+        public ObjectProxy buildAsyncObjPrx() {
+            ObjectProxy<T> proxy = new ObjectProxy<T>(host, port);
+            proxy.setClazz(clazz);
+            return proxy;
+
+        }
+
 
     }
 

@@ -17,6 +17,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class ForestServer {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BootServer.class);
     ApplicationContext context;
     private BootServer bootServer;
