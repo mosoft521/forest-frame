@@ -35,8 +35,7 @@ public class CommonClient {
 
     protected ChannelFuture f;
 
-    // TODO 改用channelPool
-    protected Channel channel;
+    protected ChannelPool channelPool;
 
     protected EventLoopGroup group;
     protected Map<Long, Context> contextMap = Maps.newConcurrentMap();
@@ -78,7 +77,8 @@ public class CommonClient {
                 }
             }
         }));
-        connect(host, port);
+
+        channelPool = new ChannelPool(this);
     }
 
     public void initClientChannel(SocketChannel ch) {
@@ -103,13 +103,22 @@ public class CommonClient {
                 });
     }
 
-    public void connect(final String host, final int port) {
+    public ChannelFuture connect(final String host, final int port) {
         try {
             f = b.connect(host, port).sync();
-            channel = f.channel();
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage(), e);
         }
+        return f;
+    }
+
+    public ChannelFuture connect() {
+        try {
+            f = b.connect(host, port).sync();
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return f;
     }
 
     public void closeSync() throws IOException {
@@ -142,10 +151,8 @@ public class CommonClient {
     }
 
     public void writeAndFlush(Object request) throws Exception {
-        if (!isConnected()) {
-            reconnect();
-        }
-        f.channel().writeAndFlush(request);
+        Connection connection = channelPool.getChannel();
+        connection.writeAndFlush(request);
     }
 
     public static class Context {
