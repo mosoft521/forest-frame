@@ -38,11 +38,6 @@ public class RpcMeta implements Readable, Writerable, Cloneable {
     public static final int COMPRESS_GZIP = 2;
 
     /**
-     * Decode and encode handler
-     */
-
-
-    /**
      * 请求包元数据
      */
     @Protobuf(fieldType = FieldType.OBJECT)

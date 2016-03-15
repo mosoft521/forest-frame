@@ -23,9 +23,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author xuyuepeng, sunzhongyi, lijianbin
- */
+
 public class ChannelPool {
     private static final Logger LOGGER = Logger.getLogger(ChannelPool.class.getName());
 

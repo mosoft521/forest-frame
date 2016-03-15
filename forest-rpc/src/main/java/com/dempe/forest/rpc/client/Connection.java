@@ -54,7 +54,7 @@ public class Connection {
         this.isConnected.set(isConnected);
     }
 
-    public void writeAndFlush(Object obj) {
+    public void doTransport(Object obj) {
         if (isConnected()) {
             future.channel().writeAndFlush(obj);
         }

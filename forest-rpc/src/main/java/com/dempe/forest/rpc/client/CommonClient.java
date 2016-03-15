@@ -16,9 +16,7 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,8 +30,6 @@ public class CommonClient {
     protected static final Logger LOGGER = LoggerFactory.getLogger(CommonClient.class);
 
     protected Bootstrap b;
-
-    protected ChannelFuture f;
 
     protected ChannelPool channelPool;
 
@@ -67,17 +63,6 @@ public class CommonClient {
                     }
                 });
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    closeSync();
-                } catch (IOException e) {
-                    LOGGER.error(e.getMessage(), e);
-                }
-            }
-        }));
-
         channelPool = new ChannelPool(this);
     }
 
@@ -104,6 +89,7 @@ public class CommonClient {
     }
 
     public ChannelFuture connect(final String host, final int port) {
+        ChannelFuture f = null;
         try {
             f = b.connect(host, port).sync();
         } catch (InterruptedException e) {
@@ -113,6 +99,7 @@ public class CommonClient {
     }
 
     public ChannelFuture connect() {
+        ChannelFuture f = null;
         try {
             f = b.connect(host, port).sync();
         } catch (InterruptedException e) {
@@ -121,38 +108,9 @@ public class CommonClient {
         return f;
     }
 
-    public void closeSync() throws IOException {
-        try {
-            f.channel().close().sync();
-            group.shutdownGracefully();
-
-        } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-    }
-
-    public void close() {
-        if (isConnected()) {
-            f.channel().close();
-        }
-    }
-
-    public boolean reconnect() throws Exception {
-        close();
-        LOGGER.info("start reconnect to server.");
-        f = b.connect(host, port);// 异步建立长连接
-        f.get(connectTimeout, TimeUnit.MILLISECONDS); // 最多等待5秒，如连接建立成功立即返回
-        LOGGER.info("end reconnect to server result:" + isConnected());
-        return isConnected();
-    }
-
-    public boolean isConnected() {
-        return f != null && f.channel().isActive();
-    }
-
     public void writeAndFlush(Object request) throws Exception {
         Connection connection = channelPool.getChannel();
-        connection.writeAndFlush(request);
+        connection.doTransport(request);
     }
 
     public static class Context {
