@@ -23,7 +23,6 @@ public class Promise<T> implements Callback<T>, Future<T> {
             this.message = message;
             latch.countDown();
         }
-
     }
 
 

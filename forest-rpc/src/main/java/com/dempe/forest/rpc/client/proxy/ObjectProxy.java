@@ -3,7 +3,6 @@ package com.dempe.forest.rpc.client.proxy;
 
 import com.dempe.forest.rpc.client.Callback;
 import com.dempe.forest.rpc.client.Future;
-import com.dempe.forest.rpc.core.ForestContext;
 import com.dempe.forest.rpc.transport.protocol.PacketData;
 
 import java.lang.reflect.InvocationHandler;
@@ -32,8 +31,8 @@ public class ObjectProxy<T> extends BaseObjectProxy<T> implements InvocationHand
                 throw new IllegalStateException(String.valueOf(method));
             }
         }
-        ForestContext rpcCtx = createPacket(method, args);
-        Future<PacketData> send = send(rpcCtx.getPacketData());
+        PacketData packet = createPacket(method, args);
+        Future<PacketData> send = send(packet);
         PacketData packetData = send.await();
         byte[] data = packetData.getData();
         return new String(data);
@@ -41,14 +40,14 @@ public class ObjectProxy<T> extends BaseObjectProxy<T> implements InvocationHand
 
     public Future<PacketData> call(String methodName, Object... args) throws Exception {
         Method method = getMethod(methodName, args);
-        ForestContext rpcCtx = createPacket(method, args);
-        return send(rpcCtx.getPacketData());
+        PacketData packet = createPacket(method, args);
+        return send(packet);
     }
 
     public void notify(String methodName, Callback<T> callback, Object... args) throws Exception {
         Method method = getMethod(methodName, args);
-        ForestContext rpcCtx = createPacket(method, args);
-        send(rpcCtx.getPacketData(), callback);
+        PacketData packet = createPacket(method, args);
+        send(packet, callback);
     }
 
     private Method getMethod(String methodName, Object[] args) throws NoSuchMethodException {

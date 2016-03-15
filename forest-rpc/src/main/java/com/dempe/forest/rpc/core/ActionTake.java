@@ -68,7 +68,6 @@ public class ActionTake implements Take<PacketData, PacketData> {
             } else if (Float.class == type[i] || StringUtils.equals(type[i].toString(), "float")) {
                 args[i] = unpack.popFloat();
             }
-
         }
         // 获取方法参数
         Object result = actionMethod.call(args);

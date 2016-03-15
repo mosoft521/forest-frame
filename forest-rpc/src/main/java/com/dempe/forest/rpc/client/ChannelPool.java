@@ -34,7 +34,6 @@ public class ChannelPool {
         objectFactory = new ChannelPoolObjectFactory(rpcClient);
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
         pool = new GenericObjectPool<Connection>(objectFactory, config);
-
     }
 
     public Connection getChannel() throws Exception {
