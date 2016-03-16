@@ -20,7 +20,6 @@ public class ServerContext {
     private ApplicationContext context;
     private AppConfig config;
 
-
     public ServerContext(AppConfig config, ApplicationContext context) {
         this.context = context;
         this.config = config;

@@ -13,6 +13,7 @@
         <module>forest-bus</module>
         <module>forest-node</module>
         <module>forest-rpc</module>
+        <module>forest-manger</module>
     </modules>
 
 

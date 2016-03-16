@@ -14,12 +14,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultClient extends CommonClient {
 
-    private int nextMessageId = 1;
+
 
     public DefaultClient(String host, int port) {
         super(host, port);
     }
 
+    private int nextMessageId = 1;
     private long getNextMessageId() {
         long rc = nextMessageId;
         nextMessageId++;
