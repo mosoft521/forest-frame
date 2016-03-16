@@ -66,7 +66,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped table-hover">
+                            <table  class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>uid</th>
@@ -78,13 +78,13 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach var="user" items="${userList}" varStatus="status">
-                                    <tr id="tr_${user.id}">
-                                        <td>${user.id}</td>
+                                    <tr id="tr_${user.uid}">
+                                        <td>${user.uid}</td>
                                         <td>${user.name}</td>
                                         <td>${user.profile}</td>
                                         <td>${user.createAt}</td>
                                         <td>
-                                            <button type="button" _id="${app.id}" id="delApp">删除</button>
+                                            <button type="button" _id="${app.uid}" id="delApp">删除</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
