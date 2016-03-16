@@ -41,7 +41,7 @@ public class UserController {
     @Qualifier("org.springframework.security.authenticationManager")
     protected AuthenticationManager authenticationManager;
 
-    @RequestMapping("list")
+    @RequestMapping("index")
     public String add(Model model) {
         List<User> userList = userService.listUser();
         model.addAttribute("userList", userList);
