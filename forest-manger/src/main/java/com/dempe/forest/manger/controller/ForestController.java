@@ -1,5 +1,6 @@
 package com.dempe.forest.manger.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("forest")
 public class ForestController {
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("index")
     public String index() {
         System.out.println("index============================");

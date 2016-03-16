@@ -34,7 +34,9 @@ public class UserController {
     }
 
     @RequestMapping("login")
-    public String login(Model model) {
+    public String login(@RequestParam String email, @RequestParam String pwd) {
+
+
         return "/login";
     }
 
@@ -51,10 +53,10 @@ public class UserController {
         return JsonResult.getJsonResult();
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("/register")
     public String saveUser(@ModelAttribute User user) {
         userService.saveUser(user);
-        return "redirect:/app/index";
+        return "redirect:/forest/index";
     }
 
 

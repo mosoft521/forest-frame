@@ -19,7 +19,11 @@ public class User {
 
     private String name;
 
+    private String email;
+
     private String pwd;
+
+    private int role;
 
     private String profile;
 
@@ -64,5 +68,21 @@ public class User {
 
     public void setCreateAt(long createAt) {
         this.createAt = createAt;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

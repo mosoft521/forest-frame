@@ -27,6 +27,10 @@ public class UserService {
         return userKey.getId().toString();
     }
 
+    public User findByName(String name) {
+        return userDao.findByName(name);
+    }
+
     public void updateUser(User user) {
         userDao.updateUser(user);
     }

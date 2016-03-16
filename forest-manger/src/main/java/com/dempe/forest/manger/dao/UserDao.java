@@ -31,6 +31,10 @@ public class UserDao extends BasicDAO<User, Serializable> {
         return save(user);
     }
 
+    public User findByName(String name) {
+        return findOne(createQuery().field("name").equal(name));
+    }
+
     public void updateUser(User user) {
         UpdateResults updateResults = updateFirst(createQuery().field("uid").equal(user.getUid()),
                 createUpdateOperations().add("name", user.getName())
