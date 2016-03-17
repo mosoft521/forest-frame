@@ -23,7 +23,7 @@ public class LeafServer {
         AppConfig devConfig = ConfigFactory.create(AppConfig.class);
         ForestServer server = new ForestServer(devConfig, context);
         server
-//                .registerNameService()
+                .registerNameService()
                 .start();
     }
 }

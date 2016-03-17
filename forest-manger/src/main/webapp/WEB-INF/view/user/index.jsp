@@ -41,6 +41,7 @@
 
     <!-- =============================================== -->
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -57,8 +58,60 @@
 
         <!-- Main content -->
         <section class="content">
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <form action="/user/update" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">更新用户</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="box box-default">
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="name">昵称</label>
+                                            <input type="input" class="form-control" name="name" id="name" placeholder="name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>角色</label>
+                                            <select class="form-control select2" id="role"  name="roleId" style="width: 100%;">
+                                                <option selected="selected" value="2">管理员</option>
+                                                <option value="3">超级管理员</option>
+                                                <option value="1" >普通用户</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="profile">描述</label>
+                                            <input type="password" class="form-control" name="profile" id="profile" placeholder="">
+                                        </div>
+                                        <input type="hidden" id="update-uid" name="uid" value=""/>
+                                    </div>
+                                    <!-- /.box-body -->
+
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" id="saveUser" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row">
+
                 <div class="col-xs-12">
+
 
                     <div class="box">
                         <div class="box-header">
@@ -66,11 +119,12 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table  class="table table-bordered table-striped table-hover">
+                            <table id="example" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>uid</th>
                                     <th>用户名</th>
+                                    <th>角色</th>
                                     <th>描述</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
@@ -78,38 +132,50 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach var="user" items="${userList}" varStatus="status">
-                                    <tr id="tr_${user.uid}">
-                                        <td>${user.uid}</td>
-                                        <td>${user.name}</td>
-                                        <td>${user.profile}</td>
-                                        <td>${user.createAt}</td>
-                                        <td>
-                                            <button type="button" _id="${app.uid}" id="delApp">删除</button>
-                                        </td>
-                                    </tr>
+                                <tr id="tr_${user.uid}">
+                                    <td>${user.uid}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.roleName}</td>
+                                    <td>${user.profile}</td>
+                                    <td>${user.createAt}</td>
+                                    <td>
+                                        <button type="button" class="btn-primary" _id="${user.uid}" id="updateModel"
+                                                data-toggle="modal" data-target="#myModal">更新
+                                        </button>
+                                        <button type="button" class="btn-danger" _id="${user.uid}" id="delModel">删除
+                                        </button>
+                                    </td>
+                                </tr>
                                 </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
+
+
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
         </section>
-        <!-- /.content -->
+
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-    <jsp:include page="../footer.jsp"/>
 
-    <!-- Control Sidebar -->
-    <jsp:include page="../control-siderbar.jsp"/>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+</div>
+
+<jsp:include page="../footer.jsp"/>
+
+<!-- Control Sidebar -->
+<jsp:include page="../control-siderbar.jsp"/>
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+     immediately after the control sidebar -->
+<div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -133,15 +199,59 @@
 <script src="${ctx}/dist/js/demo.js"></script>
 <script>
     $(function () {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
+        $("#example").DataTable();
+
+
+        $('#delModel').on('click', function () {
+            var id = $(this).attr("_id");
+            delModel(id, "/user/del");
         });
+
+
+        $('#updateModel').on('click', function () {
+            var id = $(this).attr("_id");
+
+        });
+
+
+
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var id = button.attr('_id')
+            var modal = $(this)
+            $.ajax({
+                type: "get",
+                url: "/user/getUserByUid",
+                data: "id=" + id,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    modal.find('#update-uid').val(data.uid);
+                    modal.find('#name').val(data.name);
+                    modal.find('#profile').val(data.profile)
+                    modal.find('#role').value(data.role);
+                }
+            });
+
+        })
+
+
+        function delModel(id, url) {
+            $.ajax({
+                type: "post",
+                url: url,
+                data: "id=" + id,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == '0') {
+                        $('#tr_' + id).remove();
+                    }
+                }
+            });
+        }
+
+
     });
 </script>
 </body>

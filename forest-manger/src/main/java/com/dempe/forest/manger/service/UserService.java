@@ -2,6 +2,8 @@ package com.dempe.forest.manger.service;
 
 import com.dempe.forest.manger.dao.UserDao;
 import com.dempe.forest.manger.model.User;
+import com.mongodb.WriteResult;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Key;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +33,16 @@ public class UserService {
         return userDao.findByName(name);
     }
 
+    public User findByUid(String uid) {
+        return userDao.get(new ObjectId(uid));
+    }
+
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
 
     public void delUser(String uid) {
-        userDao.deleteById(uid);
+        userDao.deleteById(new ObjectId(uid));
     }
 
     public List<User> listUser() {

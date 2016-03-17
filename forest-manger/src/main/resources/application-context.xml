@@ -28,6 +28,8 @@
         <constructor-arg name="dbName" ref="dbName"/>
     </bean>
 
+    <!--<bean class="com.dempe.forest.register.ForestNameService"/>-->
+
     <!-- 使用零配置管理依赖注入 -->
     <context:annotation-config/>
     <!-- 主动搜索以下目录 -->

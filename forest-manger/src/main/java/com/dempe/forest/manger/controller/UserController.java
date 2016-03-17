@@ -1,9 +1,11 @@
 package com.dempe.forest.manger.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dempe.forest.manger.model.User;
 import com.dempe.forest.manger.service.UserService;
 import com.dempe.forest.manger.utils.JsonResult;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,27 +44,40 @@ public class UserController {
     protected AuthenticationManager authenticationManager;
 
     @RequestMapping("index")
-    public String add(Model model) {
+    public String index(Model model) {
         List<User> userList = userService.listUser();
+        for (User user : userList) {
+            if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
+                user.setRoleName("管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_CAMPAIGN.value()) {
+                user.setRoleName("超级管理员");
+            }
+        }
         model.addAttribute("userList", userList);
         return "/user/index";
     }
 
     @RequestMapping("/new")
-    public String newApp() {
+    public String newUser() {
         return "/user/newUser";
+    }
+
+    @RequestMapping("/getUserByUid")
+    @ResponseBody
+    public User getUserByUid(@RequestParam String id){
+       return userService.findByUid(id);
     }
 
     @RequestMapping("/del")
     @ResponseBody
-    public JSONObject delUser(@RequestParam String uid) {
-        userService.delUser(uid);
+    public JSONObject delUser(@RequestParam String id) {
+        userService.delUser(id);
         return JsonResult.getJsonResult();
     }
 
     @RequestMapping("/register")
     public String register(HttpServletRequest request, @ModelAttribute User user) {
-        user.setRole(1);
+        user.setRoleId(1);
         userService.saveUser(user);
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getName(), user.getPwd());
@@ -76,5 +91,13 @@ public class UserController {
         return "redirect:/forest/index";
     }
 
+
+    @RequestMapping("/update")
+    public String update(@ModelAttribute User user) {
+        if(StringUtils.isNotBlank(user.getUid())){
+            userService.updateUser(user);
+        }
+        return "redirect:/user/index";
+    }
 
 }

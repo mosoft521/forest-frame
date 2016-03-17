@@ -114,6 +114,16 @@
       </li>
       <li>
         <a href="#">
+          <i class="fa fa-envelope"></i> <span>服务管理</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/discovery/index"><i class="fa fa-circle-o"></i>服务发现</a></li>
+          <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
           <i class="fa fa-envelope"></i> <span>系统管理</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>

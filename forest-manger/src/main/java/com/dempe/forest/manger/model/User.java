@@ -1,7 +1,9 @@
 package com.dempe.forest.manger.model;
 
+import com.alibaba.fastjson.JSONObject;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.NotSaved;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +15,6 @@ import org.mongodb.morphia.annotations.Id;
 @Entity("user")
 public class User {
 
-
     @Id
     private String uid;
 
@@ -23,12 +24,32 @@ public class User {
 
     private String pwd;
 
-    private int role;
+    private int roleId;
+
+    @NotSaved
+    private String roleName;
 
     private String profile;
 
     private long createAt;
 
+    public static enum RoleType {
+        ROLE_ADMIN(1),
+        ROLE_CAMPAIGN(2);
+        int role;
+
+        private RoleType(int role) {
+            this.role = role;
+        }
+
+        public int value() {
+            return role;
+        }
+    }
+
+    public String toJSONString() {
+        return JSONObject.toJSONString(this);
+    }
 
     public String getUid() {
         return uid;
@@ -70,12 +91,12 @@ public class User {
         this.createAt = createAt;
     }
 
-    public int getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getEmail() {
@@ -84,5 +105,27 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                ", profile='" + profile + '\'' +
+                ", createAt=" + createAt +
+                '}';
     }
 }

@@ -1,10 +1,13 @@
 package com.dempe.forest.manger.dao;
 
 import com.dempe.forest.manger.model.User;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Key;
 import org.mongodb.morphia.dao.BasicDAO;
-import org.mongodb.morphia.query.UpdateResults;
+import org.mongodb.morphia.mapping.Mapper;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,10 +39,18 @@ public class UserDao extends BasicDAO<User, Serializable> {
     }
 
     public void updateUser(User user) {
-        UpdateResults updateResults = updateFirst(createQuery().field("uid").equal(user.getUid()),
-                createUpdateOperations().add("name", user.getName())
-                        .add("profile", user.getProfile())
-                        .add("pwd", user.getPwd()));
+        UpdateOperations<User> updateOperations = createUpdateOperations();
+        int roleId = user.getRoleId();
+        System.out.println(roleId);
+        updateOperations= updateOperations.set("roleId", roleId);
+        if (user.getName() != null) {
+            updateOperations=  updateOperations.set("name", user.getName());
+        }
+        if (user.getProfile() != null) {
+            updateOperations= updateOperations.set("profile", user.getProfile());
+        }
+        Query<User> query = createQuery().field(Mapper.ID_KEY).equal(new ObjectId(user.getUid()));
+        update(query, updateOperations);
 
     }
 }
