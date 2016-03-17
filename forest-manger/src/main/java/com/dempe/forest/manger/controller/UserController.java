@@ -1,6 +1,5 @@
 package com.dempe.forest.manger.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dempe.forest.manger.model.User;
 import com.dempe.forest.manger.service.UserService;
@@ -49,8 +48,10 @@ public class UserController {
         for (User user : userList) {
             if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
                 user.setRoleName("管理员");
-            } else if (user.getRoleId() == User.RoleType.ROLE_CAMPAIGN.value()) {
+            } else if (user.getRoleId() == User.RoleType.ROLE_MANGER.value()) {
                 user.setRoleName("超级管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_USER.value()) {
+                user.setRoleName("普通用户");
             }
         }
         model.addAttribute("userList", userList);
@@ -64,8 +65,8 @@ public class UserController {
 
     @RequestMapping("/getUserByUid")
     @ResponseBody
-    public User getUserByUid(@RequestParam String id){
-       return userService.findByUid(id);
+    public User getUserByUid(@RequestParam String id) {
+        return userService.findByUid(id);
     }
 
     @RequestMapping("/del")
@@ -94,7 +95,7 @@ public class UserController {
 
     @RequestMapping("/update")
     public String update(@ModelAttribute User user) {
-        if(StringUtils.isNotBlank(user.getUid())){
+        if (StringUtils.isNotBlank(user.getUid())) {
             userService.updateUser(user);
         }
         return "redirect:/user/index";

@@ -57,7 +57,7 @@ public class MongoUserDetailsService implements UserDetailsService {
             authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
         } else if (role.intValue() == 2) {
-            authList.add(new SimpleGrantedAuthority("ROLE_CAMPAIGN"));
+            authList.add(new SimpleGrantedAuthority("ROLE_MANGER"));
         }
         return authList;
     }

@@ -34,8 +34,9 @@ public class User {
     private long createAt;
 
     public static enum RoleType {
-        ROLE_ADMIN(1),
-        ROLE_CAMPAIGN(2);
+        ROLE_USER(1),
+        ROLE_ADMIN(2),
+        ROLE_MANGER(3);
         int role;
 
         private RoleType(int role) {

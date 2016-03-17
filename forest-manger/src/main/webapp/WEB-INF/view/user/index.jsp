@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>角色</label>
-                                            <select class="form-control select2" id="role"  name="roleId" style="width: 100%;">
+                                            <select class="form-control select2" id="roleId"  name="roleId" style="width: 100%;">
                                                 <option selected="selected" value="2">管理员</option>
                                                 <option value="3">超级管理员</option>
                                                 <option value="1" >普通用户</option>
@@ -229,11 +229,13 @@
                     modal.find('#update-uid').val(data.uid);
                     modal.find('#name').val(data.name);
                     modal.find('#profile').val(data.profile)
-                    modal.find('#role').value(data.role);
+                    modal.find('#roleId').val(data.roleId);
                 }
             });
 
         })
+
+
 
 
         function delModel(id, url) {
