@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dempe.forest.manger.model.User;
 import com.dempe.forest.manger.service.UserService;
 import com.dempe.forest.manger.utils.JsonResult;
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,6 +58,21 @@ public class UserController {
         model.addAttribute("userList", userList);
         return "/user/index";
     }
+    @RequestMapping("list")
+    @ResponseBody
+    public List<User> list() {
+        List<User> userList = userService.listUser();
+        for (User user : userList) {
+            if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
+                user.setRoleName("管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_MANGER.value()) {
+                user.setRoleName("超级管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_USER.value()) {
+                user.setRoleName("普通用户");
+            }
+        }
+      return userList;
+    }
 
     @RequestMapping("/new")
     public String newUser() {
@@ -99,6 +115,18 @@ public class UserController {
             userService.updateUser(user);
         }
         return "redirect:/user/index";
+    }
+
+    @RequestMapping("/saveOrUpdate")
+    @ResponseBody
+    public String saveOrUpdate(@ModelAttribute User user) {
+        if (Strings.isNullOrEmpty(user.getUid())) {
+            user.setUid(null);
+            userService.saveUser(user);
+        }else {
+            userService.updateUser(user);
+        }
+        return JsonResult.getJsonResult().toJSONString();
     }
 
 }

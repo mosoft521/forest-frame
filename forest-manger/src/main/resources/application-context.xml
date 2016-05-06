@@ -8,8 +8,8 @@
 
     <!-- 数据库实例 -->
     <bean id="mongo" class="com.mongodb.MongoClient">
-        <constructor-arg name="host" value="127.0.0.1"/>
-        <constructor-arg name="port" value="27017"/>
+        <constructor-arg name="host" value="120.76.129.232"/>
+        <constructor-arg name="port" value="27000"/>
     </bean>
 
 

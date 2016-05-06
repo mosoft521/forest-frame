@@ -9,11 +9,12 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>forest-register</module>
-        <module>forest-bus</module>
-        <module>forest-node</module>
+        <module>forest-common</module>
         <module>forest-rpc</module>
         <module>forest-manger</module>
+        <module>forest-core</module>
+        <module>forest-registry</module>
+        <module>forest-demo</module>
     </modules>
 
 
