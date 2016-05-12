@@ -46,33 +46,18 @@ public class UserController {
     @RequestMapping("index")
     public String index(Model model) {
         List<User> userList = userService.listUser();
-        for (User user : userList) {
-            if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
-                user.setRoleName("管理员");
-            } else if (user.getRoleId() == User.RoleType.ROLE_MANGER.value()) {
-                user.setRoleName("超级管理员");
-            } else if (user.getRoleId() == User.RoleType.ROLE_USER.value()) {
-                user.setRoleName("普通用户");
-            }
-        }
+        userList = buildUserList(userList);
         model.addAttribute("userList", userList);
         return "/user/index";
     }
+
     @RequestMapping("list")
     @ResponseBody
     public List<User> list() {
         List<User> userList = userService.listUser();
-        for (User user : userList) {
-            if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
-                user.setRoleName("管理员");
-            } else if (user.getRoleId() == User.RoleType.ROLE_MANGER.value()) {
-                user.setRoleName("超级管理员");
-            } else if (user.getRoleId() == User.RoleType.ROLE_USER.value()) {
-                user.setRoleName("普通用户");
-            }
-        }
-      return userList;
+        return buildUserList(userList);
     }
+
 
     @RequestMapping("/new")
     public String newUser() {
@@ -123,10 +108,29 @@ public class UserController {
         if (Strings.isNullOrEmpty(user.getUid())) {
             user.setUid(null);
             userService.saveUser(user);
-        }else {
+        } else {
             userService.updateUser(user);
         }
         return JsonResult.getJsonResult().toJSONString();
     }
+
+    /**
+     * 设置用户角色
+     * @param userList
+     * @return
+     */
+    private List<User> buildUserList(List<User> userList) {
+        for (User user : userList) {
+            if (user.getRoleId() == User.RoleType.ROLE_ADMIN.value()) {
+                user.setRoleName("管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_MANGER.value()) {
+                user.setRoleName("超级管理员");
+            } else if (user.getRoleId() == User.RoleType.ROLE_USER.value()) {
+                user.setRoleName("普通用户");
+            }
+        }
+        return userList;
+    }
+
 
 }
