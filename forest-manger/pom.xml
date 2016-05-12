@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>com.dempe.forest</groupId>
-            <artifactId>forest-register</artifactId>
+            <artifactId>forest-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- MongoDB Java Driver -->
@@ -360,6 +360,18 @@
             <version>1.0.6</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

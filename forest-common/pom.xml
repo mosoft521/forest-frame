@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>forest-register</artifactId>
+    <artifactId>forest-common</artifactId>
 
     <repositories>
         <repository>
@@ -25,7 +25,6 @@
             <artifactId>mapdb</artifactId>
             <version>1.0.9</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
