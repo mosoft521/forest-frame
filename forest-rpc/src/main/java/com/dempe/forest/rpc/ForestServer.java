@@ -1,6 +1,5 @@
 package com.dempe.forest.rpc;
 
-import com.dempe.forest.register.ForestNameService;
 import com.dempe.forest.rpc.core.ServerContext;
 import com.dempe.forest.rpc.core.ServerHandlerInitializer;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ public class ForestServer {
     ApplicationContext context;
     private BootServer bootServer;
     private AppConfig config;
-    private ForestNameService forestNameService;
 
     public ForestServer(AppConfig config, ApplicationContext context) {
         this.config = config;
@@ -33,9 +31,7 @@ public class ForestServer {
 
 
     public ForestServer registerNameService() throws Exception {
-        forestNameService = new ForestNameService();
-        forestNameService.start();
-        forestNameService.register();
+     
         return this;
     }
 

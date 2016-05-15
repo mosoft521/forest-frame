@@ -9,3 +9,4 @@ package com.dempe.forest.core.config;
  */
 public class AbstractConfig {
 }
+

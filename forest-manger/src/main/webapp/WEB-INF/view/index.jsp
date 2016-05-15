@@ -7,31 +7,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>fores管理后台</title>
-    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="${ctx}/bootstrap/css/bootstrap.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="${ctx}/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${ctx}/dist/css/skins/_all-skins.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<!-- Site wrapper -->
 <div class="wrapper">
-
     <jsp:include page="header.jsp"/>
     <jsp:include page="siderbar.jsp"/>
 
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1> Blank page</h1>
         </section>
-        <!-- Main content -->
         <section class="content">
-
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
@@ -55,7 +45,8 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                                 </div>
                                 <div class="modal-body">
@@ -69,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div  class="example-modal">
+                    <div class="example-modal">
                         <div class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -82,7 +73,9 @@
                                         <p>One fine body&hellip;</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                                            Close
+                                        </button>
                                         <button type="button" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </div>
@@ -91,23 +84,17 @@
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        Footer
+                    </div>
+                    <!-- /.box-footer-->
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    Footer
-                </div>
-                <!-- /.box-footer-->
             </div>
-            <!-- /.box -->
-
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
     <jsp:include page="footer.jsp"/>
-
-    <!-- Control Sidebar -->
     <jsp:include page="control-siderbar.jsp"/>
     <div class="control-sidebar-bg"></div>
 </div>

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("forest")
 public class ForestController {
 
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("index")
     public String index() {

@@ -14,9 +14,7 @@
         <module>forest-manger</module>
         <module>forest-core</module>
         <module>forest-registry</module>
-        <module>forest-demo</module>
     </modules>
-
 
     <repositories>
         <repository>
