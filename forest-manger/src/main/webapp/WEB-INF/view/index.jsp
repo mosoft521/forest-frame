@@ -16,7 +16,6 @@
 <div class="wrapper">
     <jsp:include page="header.jsp"/>
     <jsp:include page="siderbar.jsp"/>
-
     <div class="content-wrapper">
         <section class="content-header">
             <h1> Blank page</h1>

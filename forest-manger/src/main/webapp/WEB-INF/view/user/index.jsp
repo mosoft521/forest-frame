@@ -32,10 +32,7 @@
                 <div id="toolbar">
                     <div class="form-inline" role="form">
                         <div class="form-group">
-                            <a  id="add" class="create btn btn-default" href="javascript:">新增</a>&nbsp;&nbsp;
-                        </div>
-                        <div class="form-group">
-                            <a id="ok" class="create btn btn-primary" href="javascript:">刷新</a>
+                            <a id="add" class="create btn btn-default" href="javascript:">新增</a>
                         </div>
                     </div>
                 </div>
@@ -56,21 +53,22 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" >更新用户</h4>
+                <h4 class="modal-title">更新用户</h4>
             </div>
             <div class="modal-body">
                 <div class="box box-default">
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form  id="form" action="/user/saveOrUpdate" method="post">
+                        <form id="form" action="/user/saveOrUpdate" method="post">
                             <input type="hidden" id="id" name="uid"/>
                             <div class="form-group">
                                 <label for="name">昵称</label>
-                                <input type="input" class="form-control  validate[required]" name="name" id="name" placeholder="name">
+                                <input type="input" class="form-control  validate[required]" name="name" id="name"
+                                       placeholder="name">
                             </div>
                             <div class="form-group">
                                 <label>角色</label>
-                                <select class="form-control select2" id="roleId"  name="roleId" style="width: 100%;">
+                                <select class="form-control select2" id="roleId" name="roleId" style="width: 100%;">
                                     <option selected="selected" value="2">管理员</option>
                                     <option value="3">超级管理员</option>
                                     <option value="1">普通用户</option>
@@ -80,7 +78,7 @@
                                 <label for="profile">描述</label>
                                 <input type="text" class="form-control" name="profile" id="profile" placeholder="">
                             </div>
-                         </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -89,7 +87,7 @@
                 <button type="submit" id="save" class="btn btn-primary">保存</button>
             </div>
         </div>
-       
+
     </div>
 </div>
 </div>
@@ -111,65 +109,112 @@
 <script>
     $(function () {
 
-    $('#table').bootstrapTable('destroy');
-        $('#table').bootstrapTable({
-            columns: [
-                {field: 'uid', title: '用户id', align: 'center', width: '5%'},
-                {field: 'name', title: '用户昵称',sortable: 'true', align: 'center', width: '15%'},
-                {field: 'roleName', title: '用户角色', width: '25%'},
-                 {field: 'profile', title: '描述', width: '25%'},
-                {field: 'path', title: '用户创建时间', align: 'center', width: '5%'},
-                {
-                    field: 'id', title: '操作', align: 'center', width: '15%', formatter: function (val, row, index) {
-                    return [
-                        '<button data-id=' + val + ' class="edit btn btn-primary"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
-                        '<button data-id=' + val + ' class="remove btn btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button>',
-                    ].join('');
-                }
-                },
-            ],
-            cache: false,
-            striped: true,
-            showRefresh: true,
-            pagination: true,
-            pageList: [5,10,20,30,50],
-            search: true,
-            sidePagination: "client",
-            toolbar: '#toolbar',
-            url:'/user/list',
-            queryParams: function queryParams(params) {   //设置查询参数
-                return {};
-            }
-        });
-    });
 
-    $("#add").click(function () {
-        $("#form")[0].reset();
-        $("#id").val(null);
-        // 打开编辑弹窗
-        $("#modal").modal('show');
-    });
+        window.initHandle = {
+            // 编辑
+            editModel: function (id) {
+                alert("---------edit model-----");
+                $.ajax({
+                    type: "post",
+                    url: "",
+                    data: {id: id},
+                    dateType: "json",
+                    success: function (result) {
+                        //
+                        console.log(result);
 
-   $("#save").click(function () {
-        $('#form').validationEngine('attach', {
-          promptPosition: 'centerRight',
-          scroll: false
-        });
-        if ($("#form").validationEngine('validate')) {
-            $.ajax({
-                type: "post",
-                url: "/user/saveOrUpdate",
-                data: $('#form').serialize(),
-                dataType: "json",
-                success: function (json) {
-                    if(json.code==0){
-                         $("#modal").modal('hide');
-                        TableHelper.doRefresh("#table");
+                        //
                     }
+                });
+            },
+            saveModel: function () {
+                if ($("#form").validationEngine('validate')) {
+                    $.ajax({
+                        type: "post",
+                        url: "/user/saveOrUpdate",
+                        data: $('#form').serialize(),
+                        dataType: "json",
+                        success: function (json) {
+                            if (json.code == 0) {
+                                $("#modal").modal('hide');
+                                TableHelper.doRefresh("#table");
+                            }
+                        }
+                    });
                 }
-            });
+            },
+            deleteModel: function (id) {
+                $.ajax({
+                    type: "post",
+                    url: "/user/delById",
+                    data: {id: id},
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.code == 0) {
+                            alert("删除成功");
+                        } else {
+                            alert("删除失败：Message：" + result.msg);
+                        }
+                    }
+                });
+            },
+            initTable: function () {
+                $('#table').bootstrapTable('destroy');
+                $('#table').bootstrapTable({
+                    columns: [
+                        {field: 'uid', title: '用户id', align: 'center', width: '5%'},
+                        {field: 'name', title: '用户昵称', sortable: 'true', align: 'center', width: '15%'},
+                        {field: 'roleName', title: '用户角色', width: '25%'},
+                        {field: 'profile', title: '描述', width: '25%'},
+                        {field: 'path', title: '用户创建时间', align: 'center', width: '5%'},
+                        {
+                            field: 'id',
+                            title: '操作',
+                            align: 'center',
+                            width: '15%',
+                            formatter: function (val, row, index) {
+                                return [
+                                    '<button class="btn btn-primary" onclick="initHandle.editModel("' + row.uid + '")"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
+                                    '<button class="btn btn-danger" onclick="initHandle.deleteModel(\'' + row.uid + '\')"><i class="glyphicon glyphicon-remove"></i>删除</button>',
+                                ].join('');
+                            }
+                        },
+                    ],
+                    cache: false,
+                    striped: true,
+                    showRefresh: true,
+                    pagination: true,
+                    pageList: [5, 10, 20, 30, 50],
+                    search: true,
+                    sidePagination: "client",
+                    toolbar: '#toolbar',
+                    url: '/user/list',
+                    queryParams: function queryParams(params) {   //设置查询参数
+                        return {};
+                    }
+                });
+
+            }
         }
+
+        // 设置校验ui
+        $('#form').validationEngine('attach', {
+            promptPosition: 'centerRight',
+            scroll: false
+        });
+
+        $("#add").click(function () {
+            $("#form")[0].reset();
+            $("#id").val(null);
+            // 打开编辑弹窗
+            $("#modal").modal('show');
+        });
+        // 初始化table
+        initHandle.initTable();
+
     });
+
+
 </script>
 </body>
 </html>

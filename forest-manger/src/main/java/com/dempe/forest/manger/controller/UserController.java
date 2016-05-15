@@ -58,21 +58,15 @@ public class UserController {
         return buildUserList(userList);
     }
 
-
-    @RequestMapping("/new")
-    public String newUser() {
-        return "/user/newUser";
-    }
-
-    @RequestMapping("/getUserByUid")
+    @RequestMapping("/getById")
     @ResponseBody
-    public User getUserByUid(@RequestParam String id) {
+    public User getById(@RequestParam String id) {
         return userService.findByUid(id);
     }
 
-    @RequestMapping("/del")
+    @RequestMapping("/delById")
     @ResponseBody
-    public JSONObject delUser(@RequestParam String id) {
+    public JSONObject delById(@RequestParam String id) {
         userService.delUser(id);
         return JsonResult.getJsonResult();
     }
