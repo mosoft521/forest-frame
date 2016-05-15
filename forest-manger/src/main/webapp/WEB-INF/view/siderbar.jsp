@@ -55,7 +55,7 @@
         </a>
         <ul class="treeview-menu">
           <li><a href="/user/index"><i class="fa fa-circle-o"></i>用户管理</a></li>
-          <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+          <li><a href="/role/index"><i class="fa fa-circle-o"></i>角色管理</a></li>
         </ul>
       </li>
 

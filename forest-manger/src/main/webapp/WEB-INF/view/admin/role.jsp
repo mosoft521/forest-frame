@@ -24,7 +24,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>用户列表</h1>
+            <h1>角色列表</h1>
         </section>
         <!-- Main content -->
         <section class="content" style="min-height: 850px;width: 100%">
@@ -38,7 +38,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div id="table"></div>
+                    <table id="table"></table>
                 </div>
             </div>
         </section>
@@ -59,20 +59,13 @@
                 <div class="box box-default">
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form id="form" action="/user/saveOrUpdate" method="post">
-                            <input type="hidden" id="id" name="uid"/>
+                        <form id="form" method="post">
+                            <input type="hidden" id="id" name="id"/>
                             <div class="form-group">
-                                <label for="name">昵称</label>
-                                <input type="input" class="form-control  validate[required]" name="name" id="name"
-                                       placeholder="name">
-                            </div>
-                            <div class="form-group">
-                                <label>角色</label>
-                                <select class="form-control select2" id="roleId" name="roleId" style="width: 100%;">
-                                    <option selected="selected" value="2">管理员</option>
-                                    <option value="3">超级管理员</option>
-                                    <option value="1">普通用户</option>
-                                </select>
+                                <label for="roleName">角色名称</label>
+                                <input type="input" class="form-control  validate[required]" name="roleName"
+                                       id="roleName"
+                                       placeholder="角色名称">
                             </div>
                             <div class="form-group">
                                 <label for="profile">描述</label>
@@ -96,12 +89,11 @@
 <jsp:include page="../control-siderbar.jsp"/>
 <div class="control-sidebar-bg"></div>
 </div>
-<!-- ./wrapper -->
-
 <script src="${ctx}/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="${ctx}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/plugins/bootstrap-table/bootstrap-table.js"></script>
 <script src="${ctx}/plugins/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="${ctx}/plugins/bootstrap-table/bootstrap-table-helper.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-zh_CN.js"></script>
 <script src="${ctx}/dist/js/app.min.js"></script>
@@ -109,49 +101,33 @@
 <script>
     $(function () {
 
-
         window.initHandle = {
             // 编辑
             editModel: function (id) {
-                alert("---------edit model-----");
                 $.ajax({
                     type: "post",
-                    url: "",
+                    url: "/role/getById",
                     data: {id: id},
                     dateType: "json",
                     success: function (result) {
-                        //
-                        console.log(result);
-
-                        //
+                        $("#id").val(result.id);
+                        $("#roleName").val(result.roleName);
+                        $("#profile").val(result.profile);
+                        $("#modal").modal('show');
                     }
                 });
             },
-            saveModel: function () {
-                if ($("#form").validationEngine('validate')) {
-                    $.ajax({
-                        type: "post",
-                        url: "/user/saveOrUpdate",
-                        data: $('#form').serialize(),
-                        dataType: "json",
-                        success: function (json) {
-                            if (json.code == 0) {
-                                $("#modal").modal('hide');
-                                TableHelper.doRefresh("#table");
-                            }
-                        }
-                    });
-                }
-            },
             deleteModel: function (id) {
+                console.log(id);
                 $.ajax({
                     type: "post",
-                    url: "/user/delById",
+                    url: "/role/delById",
                     data: {id: id},
                     dataType: "json",
                     success: function (result) {
                         if (result.code == 0) {
                             alert("删除成功");
+                            TableHelper.doRefresh("#table");
                         } else {
                             alert("删除失败：Message：" + result.msg);
                         }
@@ -162,20 +138,18 @@
                 $('#table').bootstrapTable('destroy');
                 $('#table').bootstrapTable({
                     columns: [
-                        {field: 'uid', title: '用户id', align: 'center', width: '5%'},
-                        {field: 'name', title: '用户昵称', sortable: 'true', align: 'center', width: '15%'},
-                        {field: 'roleName', title: '用户角色', width: '25%'},
-                        {field: 'profile', title: '描述', width: '25%'},
-                        {field: 'path', title: '用户创建时间', align: 'center', width: '5%'},
+                        {field: 'id', title: 'id', align: 'center', width: '15%'},
+                        {field: 'roleName', title: '角色名称', sortable: 'true', align: 'center', width: '25%'},
+                        {field: 'profile', title: '描述', width: '30%'},
                         {
                             field: 'id',
                             title: '操作',
                             align: 'center',
-                            width: '15%',
+                            width: '20%',
                             formatter: function (val, row, index) {
                                 return [
-                                    '<button class="btn btn-primary" onclick="initHandle.editModel("' + row.uid + '")"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
-                                    '<button class="btn btn-danger" onclick="initHandle.deleteModel(\'' + row.uid + '\')"><i class="glyphicon glyphicon-remove"></i>删除</button>',
+                                    '<button class="btn btn-primary" onclick="initHandle.editModel(\'' + row.id + '\')"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
+                                    '<button class="btn btn-danger" onclick="initHandle.deleteModel(\'' + row.id + '\')"><i class="glyphicon glyphicon-remove"></i>删除</button>',
                                 ].join('');
                             }
                         },
@@ -188,7 +162,7 @@
                     search: true,
                     sidePagination: "client",
                     toolbar: '#toolbar',
-                    url: '/user/list',
+                    url: '/role/list',
                     queryParams: function queryParams(params) {   //设置查询参数
                         return {};
                     }
@@ -209,6 +183,24 @@
             // 打开编辑弹窗
             $("#modal").modal('show');
         });
+
+        $("#save").click(function () {
+            if ($("#form").validationEngine('validate')) {
+                $.ajax({
+                    type: "post",
+                    url: "/role/save",
+                    data: $('#form').serialize(),
+                    dataType: "json",
+                    success: function (json) {
+                        if (json.code == 0) {
+                            $("#modal").modal('hide');
+                            TableHelper.doRefresh("#table");
+                        }
+                    }
+                });
+            }
+        });
+
         // 初始化table
         initHandle.initTable();
 

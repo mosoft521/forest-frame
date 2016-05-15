@@ -3,6 +3,7 @@ package com.dempe.forest.manger.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.dempe.forest.manger.model.User;
 import com.dempe.forest.manger.service.UserService;
+import com.dempe.forest.manger.utils.JSPForward;
 import com.dempe.forest.manger.utils.JsonResult;
 import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
@@ -48,7 +49,7 @@ public class UserController {
         List<User> userList = userService.listUser();
         userList = buildUserList(userList);
         model.addAttribute("userList", userList);
-        return "/user/index";
+        return JSPForward.USER.path();
     }
 
     @RequestMapping("list")

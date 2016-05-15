@@ -41,7 +41,6 @@ public class UserDao extends BasicDAO<User, Serializable> {
     public void updateUser(User user) {
         UpdateOperations<User> updateOperations = createUpdateOperations();
         int roleId = user.getRoleId();
-        System.out.println(roleId);
         updateOperations= updateOperations.set("roleId", roleId);
         if (user.getName() != null) {
             updateOperations=  updateOperations.set("name", user.getName());
