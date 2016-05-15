@@ -103,33 +103,29 @@
 <script src="${ctx}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/plugins/bootstrap-table/bootstrap-table.js"></script>
 <script src="${ctx}/plugins/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="${ctx}/plugins/bootstrap-table/bootstrap-table-helper.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-zh_CN.js"></script>
 <script src="${ctx}/dist/js/app.min.js"></script>
 <script src="${ctx}/dist/js/demo.js"></script>
 <script>
     $(function () {
-
-
         window.initHandle = {
             // 编辑
             editModel: function (id) {
-                console.log("---------edit model-----");
                 $.ajax({
                     type: "post",
-                    url: "",
+                    url: "/user/getById",
                     data: {id: id},
                     dateType: "json",
                     success: function (result) {
-                        //
-                        console.log(result);
-
-                        //
+                        $("#id").val(result.id);
+                        $("#name").val(result.name);
+                        $("#roleName").val(result.roleName);
+                        $("#profile").val(result.profile);
+                        $("#modal").modal('show');
                     }
                 });
-            },
-            saveModel: function () {
-
             },
             deleteModel: function (id) {
                 $.ajax({
@@ -140,6 +136,7 @@
                     success: function (result) {
                         if (result.code == 0) {
                             alert("删除成功");
+                            TableHelper.doRefresh("#table");
                         } else {
                             alert("删除失败：Message：" + result.msg);
                         }
@@ -172,7 +169,7 @@
                             width: '15%',
                             formatter: function (val, row, index) {
                                 return [
-                                    '<button class="btn btn-primary" onclick="initHandle.editModel("' + row.uid + '")"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
+                                    '<button class="btn btn-primary" onclick="initHandle.editModel(\'' + row.uid + '\')"><i class="glyphicon glyphicon-edit"></i>编辑</button>&nbsp;&nbsp;',
                                     '<button class="btn btn-danger" onclick="initHandle.deleteModel(\'' + row.uid + '\')"><i class="glyphicon glyphicon-remove"></i>删除</button>',
                                 ].join('');
                             }
@@ -205,7 +202,7 @@
             if ($("#form").validationEngine('validate')) {
                 $.ajax({
                     type: "post",
-                    url: "/role/save",
+                    url: "/user/save",
                     data: $('#form').serialize(),
                     dataType: "json",
                     success: function (json) {

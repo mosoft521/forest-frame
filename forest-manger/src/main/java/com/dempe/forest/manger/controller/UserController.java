@@ -7,6 +7,7 @@ import com.dempe.forest.manger.utils.JSPForward;
 import com.dempe.forest.manger.utils.JsonResult;
 import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,37 +46,34 @@ public class UserController {
     protected AuthenticationManager authenticationManager;
 
     @RequestMapping("index")
-    public String index(Model model) {
-        List<User> userList = userService.listUser();
-        userList = buildUserList(userList);
-        model.addAttribute("userList", userList);
+    public String index() {
         return JSPForward.USER.path();
     }
 
     @RequestMapping("list")
     @ResponseBody
     public List<User> list() {
-        List<User> userList = userService.listUser();
+        List<User> userList = userService.list();
         return buildUserList(userList);
     }
 
     @RequestMapping("/getById")
     @ResponseBody
     public User getById(@RequestParam String id) {
-        return userService.findByUid(id);
+        return userService.getById(id);
     }
 
     @RequestMapping("/delById")
     @ResponseBody
     public JSONObject delById(@RequestParam String id) {
-        userService.delUser(id);
+        userService.delById(id);
         return JsonResult.getJsonResult();
     }
 
     @RequestMapping("/register")
     public String register(HttpServletRequest request, @ModelAttribute User user) {
         user.setRoleId(1);
-        userService.saveUser(user);
+        userService.save(user);
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getName(), user.getPwd());
         //request.getSession();
@@ -89,28 +87,21 @@ public class UserController {
     }
 
 
-    @RequestMapping("/update")
-    public String update(@ModelAttribute User user) {
-        if (StringUtils.isNotBlank(user.getUid())) {
-            userService.updateUser(user);
-        }
-        return "redirect:/user/index";
-    }
-
-    @RequestMapping("/saveOrUpdate")
+    @RequestMapping("/save")
     @ResponseBody
-    public String saveOrUpdate(@ModelAttribute User user) {
+    public String save(@ModelAttribute User user) {
+        String id = "";
         if (Strings.isNullOrEmpty(user.getUid())) {
-            user.setUid(null);
-            userService.saveUser(user);
-        } else {
-            userService.updateUser(user);
+            id = new ObjectId().toString();
         }
+        user.setUid(id);
+        userService.save(user);
         return JsonResult.getJsonResult().toJSONString();
     }
 
     /**
      * 设置用户角色
+     *
      * @param userList
      * @return
      */

@@ -2,12 +2,9 @@ package com.dempe.forest.manger.service;
 
 import com.dempe.forest.manger.dao.UserDao;
 import com.dempe.forest.manger.model.User;
-import com.mongodb.WriteResult;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.Key;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,31 +18,29 @@ import java.util.List;
 public class UserService {
 
 
-    @Resource
+    @Autowired
     private UserDao userDao;
 
-    public String saveUser(User user) {
-        Key<User> userKey = userDao.saveUser(user);
-        return userKey.getId().toString();
+
+    public List<User> list() {
+        return userDao.createQuery().asList();
+    }
+
+    public User getById(String id) {
+        return userDao.get(id);
+    }
+
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    public void delById(String id) {
+        userDao.deleteById(id);
     }
 
     public User findByName(String name) {
-        return userDao.findByName(name);
+        return userDao.findOne("name", name);
     }
 
-    public User findByUid(String uid) {
-        return userDao.get(new ObjectId(uid));
-    }
 
-    public void updateUser(User user) {
-        userDao.updateUser(user);
-    }
-
-    public void delUser(String uid) {
-        userDao.deleteById(new ObjectId(uid));
-    }
-
-    public List<User> listUser() {
-        return userDao.createQuery().asList();
-    }
 }

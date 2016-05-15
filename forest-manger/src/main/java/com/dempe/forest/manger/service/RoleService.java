@@ -31,7 +31,7 @@ public class RoleService {
         roleDao.save(role);
     }
 
-    public void deleteById(String id) {
+    public void delById(String id) {
         roleDao.deleteById(id);
     }
 

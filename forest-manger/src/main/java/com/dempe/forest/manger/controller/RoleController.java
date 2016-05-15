@@ -2,7 +2,6 @@ package com.dempe.forest.manger.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dempe.forest.manger.model.Role;
-import com.dempe.forest.manger.model.User;
 import com.dempe.forest.manger.service.RoleService;
 import com.dempe.forest.manger.utils.JSPForward;
 import com.dempe.forest.manger.utils.JsonResult;
@@ -10,7 +9,6 @@ import com.google.common.base.Strings;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,7 +60,7 @@ public class RoleController {
     @RequestMapping("delById")
     @ResponseBody
     public JSONObject delById(@RequestParam String id) {
-        roleService.deleteById(id);
+        roleService.delById(id);
         return JsonResult.getJsonResult();
 
     }
