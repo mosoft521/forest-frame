@@ -13,22 +13,22 @@
     <link rel="stylesheet" href="${ctx}/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="${ctx}/plugins/bootstrap-table/bootstrap-table.css">
     <link rel="stylesheet" href="${ctx}/plugins/jQuery-Validation-Engine/css/validationEngine.jquery.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
     <jsp:include page="../header.jsp"/>
     <jsp:include page="../siderbar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>角色列表</h1>
-        </section>
-        <!-- Main content -->
         <section class="content" style="min-height: 850px;width: 100%">
-            <div class="box">
+            <div class="box  box-default">
+                <div class="box-header  with-border">
+                    <h3 class="box-title">角色列表</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /.box-tools -->
+                </div>
                 <div id="toolbar">
                     <div class="form-inline" role="form">
                         <div class="form-group">

@@ -20,15 +20,16 @@
 <div class="wrapper">
     <jsp:include page="../header.jsp"/>
     <jsp:include page="../siderbar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
+
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>用户列表</h1>
-        </section>
-        <!-- Main content -->
         <section class="content" style="min-height: 850px;width: 100%">
-            <div class="box">
+            <div class="box  box-default">
+                <div class="box-header  with-border">
+                    <h3 class="box-title">用户列表</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /.box-tools -->
+                </div>
                 <div id="toolbar">
                     <div class="form-inline" role="form">
                         <div class="form-group">
@@ -43,54 +44,52 @@
             </div>
         </section>
     </div>
-    <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
 
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">角色信息</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box box-default">
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <form id="form" action="/user/saveOrUpdate" method="post">
-                            <input type="hidden" id="id" name="uid"/>
-                            <div class="form-group">
-                                <label for="name">昵称</label>
-                                <input type="input" class="form-control  validate[required]" name="name" id="name"
-                                       placeholder="name">
-                            </div>
-                            <div class="form-group">
-                                <label>角色</label>
-                                <select class="form-control select2" id="roleId" name="roleId" style="width: 100%;">
-                                    <option selected="selected" value="2">管理员</option>
-                                    <option value="3">超级管理员</option>
-                                    <option value="1">普通用户</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="profile">描述</label>
-                                <input type="text" class="form-control" name="profile" id="profile" placeholder="">
-                            </div>
-                        </form>
 
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">角色信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box box-default">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form id="form" action="/user/saveOrUpdate" method="post">
+                                <input type="hidden" id="id" name="uid"/>
+                                <div class="form-group">
+                                    <label for="name">昵称</label>
+                                    <input type="input" class="form-control  validate[required]" name="name" id="name"
+                                           placeholder="name">
+                                </div>
+                                <div class="form-group">
+                                    <label>角色</label>
+                                    <select class="form-control select2" id="roleId" name="roleId" style="width: 100%;">
+                                        <option selected="selected" value="2">管理员</option>
+                                        <option value="3">超级管理员</option>
+                                        <option value="1">普通用户</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile">描述</label>
+                                    <input type="text" class="form-control" name="profile" id="profile" placeholder="">
+                                </div>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" id="save" class="btn btn-primary">保存</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="submit" id="save" class="btn btn-primary">保存</button>
-            </div>
-        </div>
 
+        </div>
     </div>
-</div>
 </div>
 
 <jsp:include page="../footer.jsp"/>
@@ -106,6 +105,7 @@
 <script src="${ctx}/plugins/bootstrap-table/bootstrap-table-helper.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js"></script>
 <script src="${ctx}/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-zh_CN.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 <script src="${ctx}/dist/js/app.min.js"></script>
 <script src="${ctx}/dist/js/demo.js"></script>
 <script>
