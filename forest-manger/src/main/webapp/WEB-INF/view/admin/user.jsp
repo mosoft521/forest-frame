@@ -178,6 +178,7 @@
                     cache: false,
                     striped: true,
                     showRefresh: true,
+                    showColumns: true,
                     pagination: true,
                     pageList: [5, 10, 20, 30, 50],
                     search: true,
